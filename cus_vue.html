@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>cus_VUE</title>
+    <style></style>
+  </head>
+  <body>
+    <script>
+      var vm = {}
+      var data = {
+        age: 15,
+        sex: 'man',
+        name: 'zhangsan'
+      }
+
+      var key
+      for (key in data) {
+        if (data.hasOwnProperty(key)) {
+          // 这里使用闭包，是模拟块级作用域，对变量进行缓存，并有独立的作用域
+          // 要不然永远只能拿到最后一个，可以通过使用 es6 的块级作用域解决
+          ;(function(key) {
+            // 把 data 代理到 vm 上
+            Object.defineProperty(vm, key, {
+              get: function() {
+                return data[key]
+              },
+              set: function(newVal) {
+                console.log('-set-')
+                data[key] = newVal
+                // 之后就可以进行视图的更新了 render
+              }
+            })
+          })(key)
+        }
+      }
+
+      console.log(vm.age)
+      vm.age = 22
+      console.log(vm.age)
+    </script>
+  </body>
+</html>

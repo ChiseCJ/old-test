@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>my_zepto</title>
+    <style></style>
+  </head>
+  <body>
+    <p>这是 p1</p>
+    <p>这是 p2</p>
+
+    <div id="div">
+      <p>这是 p3</p>
+    </div>
+
+    <!-- <script src="./js/my_zepto.js"></script> -->
+    <!-- <script src="./js/my_jquery.js"></script> -->
+    <script>
+      // 因为不同的创建方式，都可以调用同一个方法，这几应该是原型上的方法
+      $p = $('p')
+      $p.css('color', 'blue')
+
+      $div = $('#div')
+      $div.css('font', '14px')
+      console.log($div.html())
+    </script>
+  </body>
+</html>

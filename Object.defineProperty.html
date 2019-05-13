@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Object.defineProperty</title>
+    <style></style>
+  </head>
+  <body>
+    <div id="app">
+      <input type="text" v-model="name" />
+      <h3 v-bind="name"></h3>
+      <input type="text" v-model="testData1" />
+      <h3>{{ testData1 }}</h3>
+      <input type="text" v-model="testData2" />
+      <h3>{{ testData2 }}</h3>
+    </div>
+
+    <script src="./js/myVue.js"></script>
+    <script>
+      window.onload = function() {
+        var app = new myVue({
+          el: '#app', // dom
+          data: {
+            testData1: '仿Vue',
+            testData2: '极简双向绑定',
+            name: 'OBKoro1'
+          }
+        })
+      }
+    </script>
+
+    <!-- <script>
+      var obj = {}
+      var _name = 'ccj'
+
+      Object.defineProperty(obj, 'name', {
+        get: function() {
+          return _name
+        },
+        set: function(newVal) {
+          console.log('-set-')
+          _name = newVal
+        }
+      })
+
+      console.log(obj.name)
+      obj.name = 'lisi'
+      console.log(obj.name)
+    </script> -->
+  </body>
+</html>

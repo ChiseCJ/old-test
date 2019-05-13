@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>deferred</title>
+    <style></style>
+  </head>
+  <body>
+    <!-- <script src="https://cdn.bootcss.com/jquery/2.1.1/jquery.min.js"></script> -->
+    <script src="https://cdn.bootcss.com/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://cdn.bootcss.com/js-cookie/latest/js.cookie.min.js"></script>
+    <script>
+      function cusDederred(sec, name, type) {
+        // var dtd = $.Deferred()
+        // setTimeout(function() {
+        //   console.log('-执行-')
+        //   if (type) {
+        //     dtd.resolve(name)
+        //   } else {
+        //     dtd.reject(name)
+        //   }
+        // }, sec)
+        // return dtd.promise()
+
+        // return '123'
+
+        // return $.ajax({
+        //   url: 'xxx',
+        //   error:function(res){
+        //     console.log(res)
+        //   }
+        // })
+      }
+
+      // console.log(cusDederred())
+      // result.resolve()
+      cusDederred(1000, 'first', true)
+        .then(function(res) {
+          console.log('succ-', res)
+          return cusDederred(1000, 'second')
+        })
+        .then(function(res) {
+          console.log('succ2-', res)
+        })
+        .fail(function(err) {
+          console.log('err2-', err)
+        })
+        .always(function() {
+          console.log('-always-')
+        })
+
+      // 返回的是个 Deferred 对象
+      // var dtd_ = cusDederred(1500, 'def1')
+      // var dtd2_ = cusDederred(1500, 'def2')
+      // console.log(dtd_)
+      // dtd_.reject()
+
+      // $.when(dtd_).then(
+      //   function(res) {
+      //     console.log('-succ 01-', res)
+      //     return false
+      //     console.log('-succ 01-', res)
+      //   },
+      //   function(err) {
+      //     console.log('-fail 01-')
+      //   }
+      // )
+      // $.when(dtd_).then(
+      //   function(res) {
+      //     console.log('-succ 02-')
+      //   },
+      //   function(err) {
+      //     console.log('-fail 02-')
+      //   }
+      // )
+    </script>
+  </body>
+</html>

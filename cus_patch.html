@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>cus_patch</title>
+    <style></style>
+  </head>
+  <body>
+    <script>
+      // patch(contianer, vnode)
+      function createElement(vnode) {
+        var tag = vnode.tag
+        var attrs = vnode.attrs || {}
+        var children = vnode.children || []
+
+        if (!tag) {
+          return null
+        }
+
+        // 创建元素
+        var elem = document.createElement(tag)
+
+        // 设置属性
+        for (var attrName in attrs) {
+          if (attrs.hasOwnProperty(attrName)) {
+            elem.setAttribute(attrName, attrs[attrName])
+          }
+        }
+
+        // 子节点
+        children.forEach(function(childVnode) {
+          // 递归
+          elem.appendChild(createElement(childVnode))
+        })
+
+        // 返回真是的节点
+        return elem
+      }
+
+      // patch(vnode, newVnode)
+      function updateChildren(vnode, newVnode) {
+        var children = vnode.children || []
+        var newChildren = newChildren.children || []
+
+        // 遍历现有的 children
+        children.forEach(function(child, index) {
+          var newChild = newChildren[index]
+          if (newChild == null) {
+            return
+          }
+          if (child.tag === newChild.tag) {
+            updateChildren(child, newChild)
+          } else {
+            // tag 不一样
+            replaceNode(child, newChild)
+          }
+        })
+      }
+    </script>
+  </body>
+</html>

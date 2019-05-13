@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>closure</title>
+    <style></style>
+  </head>
+  <body>
+    <p class="item">- p1 -</p>
+    <p class="item">- p3 -</p>
+    <p class="item">- p2 -</p>
+
+    <script>
+      var nodes = document.querySelectorAll('.item')
+      console.log('nodes--', nodes)
+      for (var i = 0; i < nodes.length; i++) {
+        var elm = nodes[i]
+        elm.addEventListener(
+          'click',
+          (function(key) {
+            return function(){
+              console.log(this, key)
+            }
+          })(i)
+        )
+
+        /* (function(key) {
+          elm.addEventListener('click', function(key) {
+            console.log(this, key)
+          })
+        })(i) */
+      }
+    </script>
+  </body>
+</html>
