@@ -1,8 +1,13 @@
+/**
+ * *this._watcherTpl 订阅池：给 data 对象的属性，生成各自的 订阅池 并在 set 时遍历它并触发 el.update()
+ * *this._observer 观察者：对 data 对象实现 Object.defineProperty 并在 set 时遍历 订阅池 并触发 el.update()
+ * *this._compile 模版解析：对 el 的节点进行遍历，把 v-bind v-model {{}} 按类型，new 各自的 Watcher() 方法，并触发 el.update() 初始化视图
+ */
 function myVue(options = {}) {
   this.$options = options
   this.$el = document.querySelector(options.el)
   this._data = options.data // 把数据代理到 vm 上
-  this._watcherTpl = {} // 监听池
+  this._watcherTpl = {} // 订阅池
   this._observer(this._data) // 数据绑定
   this._compile(this.$el) // 编译模版
 }
@@ -83,9 +88,12 @@ myVue.prototype._compile = function(el) {
       txt = node.textContent // 正则匹配{{}}
     if (reg.test(txt)) {
       node.textContent = txt.replace(reg, (matched, placeholder) => {
+        console.log('-{{}}-', matched, placeholder)
+
         // matched匹配的文本节点包括{{}}, placeholder 是{{}}中间的属性名
         var getName = _this._watcherTpl // 所有绑定watch的数据
         getName = getName[placeholder] // 获取对应watch 数据的值
+        // *有可能只是把 data 的数据进行展示 testData3
         if (!getName._directives) {
           // 没有事件池 创建事件池
           getName._directives = []

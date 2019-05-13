@@ -11,10 +11,14 @@
     <div id="app">
       <input type="text" v-model="name" />
       <h3 v-bind="name"></h3>
+      <hr>
       <input type="text" v-model="testData1" />
       <h3>{{ testData1 }}</h3>
+      <hr>
       <input type="text" v-model="testData2" />
       <h3>{{ testData2 }}</h3>
+      <hr>
+      <div>{{}}- <span>{{ testData3 }}</span></div>
     </div>
 
     <script src="./js/myVue.js"></script>
@@ -25,7 +29,8 @@
           data: {
             testData1: '仿Vue',
             testData2: '极简双向绑定',
-            name: 'OBKoro1'
+            testData3: '数据展示',
+            name: 'OBKoro1',
           }
         })
       }
