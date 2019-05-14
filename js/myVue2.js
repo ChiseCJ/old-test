@@ -8,24 +8,24 @@ function myVue(options = {}) {
   this.$options = options
   this.$el = document.querySelector(options.el)
   this._data = options.data
-  this._watcherTpl = {} // 订阅池
+  // this._watcherTpl = {} // 订阅池
+  this._dep = new Dep() // *新建订阅池实例
+  console.log(this._watcherTpl)
   this._observer(this._data) // 数据绑定
   this._compile(this.$el) // 编译模版
-  console.log(this);
-  
+  console.log(this)
 }
 myVue.prototype._observer = function(obj) {
   var _this = this
+
   // *这执行的是个 func 函数，不用担心想 for 循环一样丢失数据
   Object.keys(obj).forEach(key => {
-    // *初始化数据的订阅池()
-    _this._watcherTpl[key] = {
-      _directives: [] // 订阅的不同方式(v-model+v-bind+{{}})
+    // *初始化数据的订阅池(给每个属性一个独立的池)
+    _this._dep.subs[key] = {
+      _directives: []
     }
 
     var value = obj[key]
-    // 数据的订阅池
-    var watcherTpl = _this._watcherTpl[key]
 
     // *_this._data 如果改成 _this 就实现了数据代理可以直接 this.a
     Object.defineProperty(_this._data, key, {
@@ -40,11 +40,8 @@ myVue.prototype._observer = function(obj) {
         console.log(`${key}更新：${newVal}`)
         if (value !== newVal) {
           value = newVal
-          watcherTpl._directives.forEach(item => {
-            // *遍历订阅池 对应 Watcher 的 update()
-            // *触发this._compile()中发布来的订阅 Watcher 更新视图
-            item.update()
-          })
+          // 发布 订阅的
+          _this._dep.notify(key)
         }
       }
     })
@@ -69,15 +66,12 @@ myVue.prototype._compile = function(el) {
         (function(key) {
           // *事件绑定其实是类似异步的，如果不用闭包，等实际运行时 i 就只是最后的值，注意下面需要 return fun()
           // 获取v-model绑定的值
-          var attVal = node.getAttribute('v-model')
-          _this._watcherTpl[attVal]._directives.push(
-            // 将dom替换成属性的数据并发布订阅 在set的时候更新数据
-            new Watcher(node, _this, attVal, 'value')
-          )
+          var attrVal = node.getAttribute('v-model')
+          _this._dep.addSub(attrVal, new Watcher(node, _this, attrVal, 'value'))
           return function() {
             // input值改变的时候 将新值赋给数据 触发set=>set触发watch 更新视图
-            _this._data[attVal] = nodes[key].value
-            // _this[attVal] = nodes[key].value
+            _this._data[attrVal] = nodes[key].value
+            // _this[attrVal] = nodes[key].value
           }
         })(i)
       )
@@ -85,9 +79,7 @@ myVue.prototype._compile = function(el) {
     // v-bind指令
     if (node.hasAttribute('v-bind')) {
       var attrVal = node.getAttribute('v-bind') // 绑定的data
-      _this._watcherTpl[attrVal]._directives.push(
-        new Watcher(node, _this, attrVal, 'innerHTML')
-      )
+      _this._dep.addSub(attrVal, new Watcher(node, _this, attrVal, 'innerHTML'))
     }
     // {{}}模版
     var reg = /\{\{\s*([^}]+\S)\s*\}\}/g,
@@ -95,18 +87,14 @@ myVue.prototype._compile = function(el) {
     if (reg.test(txt)) {
       node.textContent = txt.replace(reg, (matched, placeholder) => {
         // matched匹配的文本节点包括{{}}, placeholder 是{{}}中间的属性名
-        console.log('-{{}}-', matched, placeholder)
-
-        var getName = _this._watcherTpl // 所有绑定watch的数据
+        var getName = _this._dep.subs // 所有绑定watch的数据
         getName = getName[placeholder] // 获取对应watch 数据的值
         // *有可能只是把 data 的数据进行展示 testData3
         // *所有没有事件池 创建事件池
-        // if (!getName._directives) {
-        //   getName._directives = []
-        // }
-        // getName._directives.push(
-        //   new Watcher(node, _this, placeholder, 'innerHTML') // 将dom替换成属性的数据并发布订阅 在set的时候更新数据
-        // )
+        if (!getName._directives) {
+          getName._directives = []
+        }
+        _this._dep.addSub(placeholder, new Watcher(node, _this, placeholder, 'innerHTML'))
         // *这个 split('.') 因为是为了遍历深对象 a.b.c
         // ?但是上面的 getName._directives 又不支持
         return placeholder.split('.').reduce((val, key) => {
@@ -114,12 +102,25 @@ myVue.prototype._compile = function(el) {
           // 获取数据的值 触发get 返回当前值
           // return _this._data[key]
           return val[key]
-        // }, _this.$el)
+          // }, _this.$el)
         }, _this._data)
         // return _this._data[placeholder]
       })
     }
   }
+}
+
+// *订阅池
+function Dep() {
+  this.subs = {}
+}
+Dep.prototype.addSub = function(attrVal, sub) {
+  this.subs[attrVal]._directives.push(sub)
+}
+Dep.prototype.notify = function(attrVal) {
+  this.subs[attrVal]._directives.forEach(item => {
+    item.update()
+  })
 }
 
 /**

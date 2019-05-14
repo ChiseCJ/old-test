@@ -4,12 +4,38 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>Document</title>
+    <title>Index All</title>
     <style></style>
   </head>
   <body>
+    <script>
+      // for in
+      // var obj = {
+      //   a: '1',
+      //   b: {
+      //     b1: 2
+      //   }
+      // }
+      // var obj = 'abc'
+      // function forIn(data, idx) {
+      //   for (const key in data) {
+      //     if (data.hasOwnProperty(key)) {
+      //       const elm = data[key]
+      //       console.log('val-', elm, 'key-', key, `-${idx}-`)
+      //       // forIn(elm, 2)
+      //     }
+      //   }
+      // }
 
-    <script  src="https://image.weduoke.com//image/7055"></script>
-    <script></script>
+      // forIn(obj, 1)
+
+      function test() {
+        this.obj = {}
+      }
+      var a = new test().obj
+      // a['abc'] = 2
+      // a.obj['abc'] = 2
+      console.log(a)
+    </script>
   </body>
 </html>

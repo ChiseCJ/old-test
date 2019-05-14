@@ -11,17 +11,20 @@
     <div id="app">
       <input type="text" v-model="name" />
       <h3 v-bind="name"></h3>
-      <hr>
+      <hr />
       <input type="text" v-model="testData1" />
       <h3>{{ testData1 }}</h3>
-      <hr>
+      <hr />
       <input type="text" v-model="testData2" />
       <h3>{{ testData2 }}</h3>
-      <hr>
-      <div>{{}}- <span>{{ testData3 }}</span></div>
+      <hr />
+      <div>
+        {{}}- <span>{{ testData3 }}</span>
+        <!-- {{}}- <span>{{ testData3.a }}</span> -->
+      </div>
     </div>
 
-    <script src="./js/myVue.js"></script>
+    <script src="./js/myVue2.js"></script>
     <script>
       window.onload = function() {
         var app = new myVue({
@@ -30,7 +33,10 @@
             testData1: '仿Vue',
             testData2: '极简双向绑定',
             testData3: '数据展示',
-            name: 'OBKoro1',
+            // testData3: {
+            //   a: '数据展示'
+            // },
+            name: 'OBKoro1'
           }
         })
       }
