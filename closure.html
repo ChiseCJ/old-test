@@ -9,29 +9,45 @@
   </head>
   <body>
     <p class="item">- p1 -</p>
-    <p class="item">- p3 -</p>
     <p class="item">- p2 -</p>
+    <p class="item">- p3 -</p>
 
     <script>
       var nodes = document.querySelectorAll('.item')
       console.log('nodes--', nodes)
-      for (var i = 0; i < nodes.length; i++) {
+      /* for (var i = 0; i < nodes.length; i++) {
         var elm = nodes[i]
         elm.addEventListener(
           'click',
           (function(key) {
-            return function(){
+            return function() {
               console.log(this, key)
             }
           })(i)
         )
+      } */
 
-        /* (function(key) {
-          elm.addEventListener('click', function(key) {
-            console.log(this, key)
-          })
-        })(i) */
+      nodes.forEach(function(item, index) {
+        // console.log(key, index)
+        // console.log(key)
+        var node = item
+        item.addEventListener('click', function() {
+          console.log(index, node)
+        })
+      })
+
+      var arr = ['a', 'b', 'c']
+
+      arr.forEach(function(item, index) {
+        console.log(item, index)
+      })
+
+      for (var i = 0; i < arr.length; i++) {
+        // for 里生成的变量是全局的
+        var abc = arr[i]
+        console.log('in-', abc)
       }
+      console.log('out-', abc)
     </script>
   </body>
 </html>

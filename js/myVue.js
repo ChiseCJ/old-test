@@ -6,15 +6,16 @@
 function myVue(options = {}) {
   this.$options = options
   this.$el = document.querySelector(options.el)
-  this._data = options.data // 把数据代理到 vm 上
+  this._data = options.data // 把数据代理到 vm 上，方便使用
   this._watcherTpl = {} // 订阅池
   this._observer(this._data) // 数据绑定
   this._compile(this.$el) // 编译模版
 }
 myVue.prototype._observer = function(obj) {
   var _this = this
+  // *这执行的是个 func 函数，不用担心想 for 循环一样丢失数据
   Object.keys(obj).forEach(key => {
-    // 每个数据的订阅池()
+    // *初始化数据的订阅池()
     _this._watcherTpl[key] = {
       _directives: [] // 订阅的不同方式(v-model+v-bind+{{}})
     }
@@ -35,9 +36,9 @@ myVue.prototype._observer = function(obj) {
         if (value !== newVal) {
           value = newVal
           watcherTpl._directives.forEach(item => {
-            // 遍历订阅池 对应 Watcher 的 update()
+            // *遍历订阅池 对应 Watcher 的 update()
+            // *触发this._compile()中发布来的订阅 Watcher 更新视图
             item.update()
-            // 遍历所有订阅的地方(v-model+v-bind+{{}}) 触发this._compile()中发布的订阅Watcher 更新视图
           })
         }
       }
@@ -79,7 +80,6 @@ myVue.prototype._compile = function(el) {
     if (node.hasAttribute('v-bind')) {
       var attrVal = node.getAttribute('v-bind') // 绑定的data
       _this._watcherTpl[attrVal]._directives.push(
-        // 将dom替换成属性的数据并发布订阅 在set的时候更新数据
         new Watcher(node, _this, attrVal, 'innerHTML')
       )
     }
@@ -88,20 +88,21 @@ myVue.prototype._compile = function(el) {
       txt = node.textContent // 正则匹配{{}}
     if (reg.test(txt)) {
       node.textContent = txt.replace(reg, (matched, placeholder) => {
+        // matched匹配的文本节点包括{{}}, placeholder 是{{}}中间的属性名
         console.log('-{{}}-', matched, placeholder)
 
-        // matched匹配的文本节点包括{{}}, placeholder 是{{}}中间的属性名
         var getName = _this._watcherTpl // 所有绑定watch的数据
         getName = getName[placeholder] // 获取对应watch 数据的值
         // *有可能只是把 data 的数据进行展示 testData3
+        // *所有没有事件池 创建事件池
         if (!getName._directives) {
-          // 没有事件池 创建事件池
           getName._directives = []
         }
         getName._directives.push(
           new Watcher(node, _this, placeholder, 'innerHTML') // 将dom替换成属性的数据并发布订阅 在set的时候更新数据
         )
         return placeholder.split('.').reduce((val, key) => {
+          console.log('--', val, key)
           return _this._data[key] // 获取数据的值 触发get 返回当前值
         }, _this.$el)
       })
@@ -109,12 +110,15 @@ myVue.prototype._compile = function(el) {
   }
 }
 
+/**
+ * *这是实际更新视图的函数，同时完成了视图的初始化
+ */
 function Watcher(el, vm, val, attr) {
   this.el = el
   this.vm = vm // myvue 的实例
   this.val = val
   this.attr = attr
-  // 初始化的时，直接调用是为了，最开始显示默认的 data
+  // 初始化的时，直接调用是为了，最开始显示默认的 data.xxx
   this.update()
 }
 Watcher.prototype.update = function() {
