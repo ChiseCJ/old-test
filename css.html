@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>CSS Study</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+      }
+      h2 {
+        height: 200px;
+        float: left;
+      }
+      h3 {
+        clear: both;
+      }
+
+      .d1 {
+        /* overflow: hidden; */
+      }
+      .p1 {
+        float: left;
+        height: 30px;
+      }
+      .p2 {
+        float: left;
+        /* clear: both; */
+        overflow: hidden;
+      }
+      span {
+        display: inline-block;
+        width: 200px;
+      }
+      /* .clearfix:before, */
+      .clearfix:after {
+        content: '.';
+        /* display: table; */
+      }
+      .clearfix:after {
+        height: 0;
+        line-height: 0;
+        visibility: hidden;
+        clear: both;
+      }
+    </style>
+  </head>
+  <body>
+    <div>
+      <h2>标题一</h2>
+      Hello World
+    </div>
+    <h3>标题二</h3>
+    <hr />
+    <div class="d1 clearfix">
+      <p class="p1">1111</p>
+      <p class="p2">2222</p>
+      <!-- <span>333</span> -->
+      <!-- <span>333</span> -->
+    </div>
+    <script></script>
+  </body>
+</html>
