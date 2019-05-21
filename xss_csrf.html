@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>XSS CSRF</title>
+    <style>
+      .div {
+        /* background-image: url('javascript:alert(1)'); */
+      }
+    </style>
+  </head>
+  <body>
+    <div class="div">div</div>
+    <hr />
+    <!-- <img src="javascript:alert(1)" alt="" /> -->
+    <hr />
+    <!-- <a href="javascript:alert(1)">a link</a> -->
+    <hr />
+    <input type="text" id="js_inp" />
+    <button id="js_btn" type="button">submit</button>
+    <div id="js_tar"></div>
+    <hr>
+    <img src="//test.cn:9000/img/bd_logo.png" alt="">
+    <script>
+      var inp = document.getElementById('js_inp')
+      var btn = document.getElementById('js_btn')
+
+      var inpVal = ''
+      inp.addEventListener('input', function(e) {
+        // console.log(e.target.value)
+        inpVal = e.target.value
+      })
+
+      btn.addEventListener('click', function(e) {
+        // console.dir(document.getElementById('js_tar'))
+        // document.getElementById('js_tar').innerHTML = inpVal
+        document.getElementById('js_tar').append(inpVal)
+      })
+    </script>
+  </body>
+</html>
