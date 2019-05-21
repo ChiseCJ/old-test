@@ -45,6 +45,18 @@
         visibility: hidden;
         clear: both;
       }
+      .test .pp1{
+        color: #666666;
+      }
+      .test .pp2{
+        color: blue;
+      }
+      /* .test .pp2:first-of-type{
+        color: red;
+      } */
+      .test .pp2:nth-of-type(1){
+        color: red;
+      }
     </style>
   </head>
   <body>
@@ -59,6 +71,12 @@
       <p class="p2">2222</p>
       <!-- <span>333</span> -->
       <!-- <span>333</span> -->
+    </div>
+    <div class="test">
+      <p class="pp1">1</p>
+      <p class="pp1">1</p>
+      <div class="pp2">2</div>
+      <div class="pp2">2</div>
     </div>
     <script></script>
   </body>

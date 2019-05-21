@@ -8,7 +8,11 @@
     <style></style>
   </head>
   <body>
+    <script src="./js/cusCopy.min.1.0.js"></script>
     <script>
+      function cusCopySucc() {
+        console.log(123)
+      }
       // for in
       // var obj = {
       //   a: '1',
@@ -29,20 +33,20 @@
 
       // forIn(obj, 1)
 
-      function test() {
-        this.obj = {}
-      }
-      var a = new test().obj
-      // a['abc'] = 2
-      // a.obj['abc'] = 2
-      console.log(a)
+      // function test() {
+      //   this.obj = {}
+      // }
+      // var a = new test().obj
+      // // a['abc'] = 2
+      // // a.obj['abc'] = 2
+      // console.log(a)
 
-      var ARR = []
-      ARR['a'] = {}
-      var arr_1 = ARR['a']
-      arr_1.a = 1
-      arr_1.b = 2
-      console.log('ARR-', arr_1, ARR)
+      // var ARR = []
+      // ARR['a'] = {}
+      // var arr_1 = ARR['a']
+      // arr_1.a = 1
+      // arr_1.b = 2
+      // console.log('ARR-', arr_1, ARR)
     </script>
   </body>
 </html>
