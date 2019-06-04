@@ -96,6 +96,8 @@
         <div class="btn-wrp">
           <span id="jsBtn" class="btn">抢</span>
         </div>
+        <!-- <a href="taobao://">taobao</a> -->
+        <!-- <a href="tbopen://">taobao2</a> -->
       </div>
     </div>
     <script src="./js/cusCopy.min.1.0.js"></script>
@@ -107,7 +109,11 @@
         jsBtn.style.fontSize = '20px'
         jsBtn.style.borderRadius = '10px'
 
-        window.location.href = "taobao://";
+        window.location.href = 'taobao://'
+        // window.location.href = "tbopen://";
+        setTimeout(function() {
+          window.location.href = 'tbopen://'
+        }, 200)
       }
     </script>
   </body>
