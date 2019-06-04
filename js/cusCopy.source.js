@@ -1,8 +1,32 @@
 /**
  * * 190304
  * * 190520 添加点击 mask 钩子
+ * * 190604 添加 mask flag
  */
-;(function() {
+;(function(window) {
+  // 获取 url param
+  function requestParam(strName) {
+    var strHref = location.search
+    var intPos = strHref.indexOf('?')
+    if (intPos === -1) {
+      return ''
+    }
+    var strRight = strHref.substr(intPos + 1)
+    var arrTmp = strRight.split('&')
+    for (var i = 0; i < arrTmp.length; i++) {
+      var arrTemp = arrTmp[i].split('=')
+      if (arrTemp[0].toUpperCase() == strName.toUpperCase()) {
+        if (i === arrTmp.length - 1) {
+          var sIndex = arrTemp[1].indexOf('#')
+          if (sIndex !== -1) {
+            arrTemp[1] = arrTemp[1].substring(0, sIndex)
+          }
+        }
+        return arrTemp[1]
+      }
+    }
+    return ''
+  }
   // 执行 copy
   function copyText(action) {
     var succeeded
@@ -110,22 +134,26 @@
       if (result) {
         window.cusCopySucc && window.cusCopySucc()
       }
-      document.getElementsByTagName('body')[0].removeChild(elem)
+      if (!requestParam('mflag')) {
+        document.getElementsByTagName('body')[0].removeChild(elem)
+      }
       elem = null
     })
     document.getElementsByTagName('body')[0].appendChild(elem)
   }
 
+  window.createDOMBindEvent = createDOMBindEvent
+
   // ajax
-  fetch('https://libaiapi.mtcop.com/random')
-    .then(function(result) {
-      return result.text()
-    })
-    .then(function(result) {
-      // todo 文本内容
-      createDOMBindEvent(result);
-    })
-    .catch(function(err) {
-      console.dir(err)
-    })
-})()
+  // fetch('//libaiapi.mtcop.com/random')
+  //   .then(function(result) {
+  //     return result.text()
+  //   })
+  //   .then(function(result) {
+  //     // todo 文本内容
+  //     createDOMBindEvent(result);
+  //   })
+  //   .catch(function(err) {
+  //     console.dir(err)
+  //   })
+})(window)
