@@ -8,11 +8,11 @@
     <style></style>
   </head>
   <body>
-    <script src="./js/cusCopy.min.1.0.js"></script>
+    <!-- <script src="./js/cusCopy.min.1.0.js"></script> -->
     <script>
-      function cusCopySucc() {
-        console.log(123)
-      }
+      // function cusCopySucc() {
+      //   console.log(123)
+      // }
       // for in
       // var obj = {
       //   a: '1',
@@ -47,6 +47,18 @@
       // arr_1.a = 1
       // arr_1.b = 2
       // console.log('ARR-', arr_1, ARR)
+
+      function test(a) {
+        console.log(a, arguments)
+      }
+
+      function test2(...args) {
+        test(...args)
+        // console.log(this)
+        // test.apply(this, arguments)
+      }
+
+      test2('a', 1, 2, 3)
     </script>
   </body>
 </html>
