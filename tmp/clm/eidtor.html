@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>我是新建/编辑页</title>
+    <link rel="stylesheet" href="./css/jquery.datetimepicker.min.css" />
+
+    <link
+      rel="stylesheet"
+      href="//at.alicdn.com/t/font_1224930_ax1s5lfwhs9.css"
+    />
+    <link rel="stylesheet" href="./css/style.css" />
+  </head>
+  <body>
+    <div class="container">
+      <div class="com-wrp eidtor-wrp">
+        <div class="title">
+          <p>新增/修改</p>
+          <div class="title-btn">
+            <button
+              id="js_test"
+              class="btn js-test-reload"
+              data-type="1"
+              disabled
+            >
+              <i class="iconfont icon-setting"></i> 测试
+            </button>
+            <button
+              id="js_reload"
+              class="btn js-test-reload"
+              data-type="2"
+              disabled
+            >
+              <i class="iconfont icon-refresh"></i> 重启
+            </button>
+            <button id="js_delete" class="btn">
+              <i class="iconfont icon-delete"></i> 删除
+            </button>
+            <button id="js_submit" class="btn">
+              <i class="iconfont icon-save"></i> 保存
+            </button>
+          </div>
+        </div>
+        <div class="date-wrp">
+          <button class="btn btn-add-url">
+            <i class="iconfont icon-add1"></i> 添加接口
+          </button>
+          <div class="item p-15">
+            <span class="label">日期</span>
+            <div class="inp-div">
+              <input id="js_dtp" class="inp-dtp" type="text" readonly />
+            </div>
+          </div>
+        </div>
+
+        <!-- url item -->
+        <div id="js_URLItem" class="url-item-wrp">
+          <div class="item-wrp js-form-item">
+            <span class="btn-close"><i class="iconfont icon-del1"></i></span>
+            <div class="item">
+              <span class="label">url地址</span>
+              <div class="inp">
+                <div class="inp-div">
+                  <input class="inp-url js-form-url" type="text" />
+                </div>
+              </div>
+            </div>
+            <div class="item">
+              <span class="label">协议类型</span>
+              <div class="inp">
+                <div class="inp-div" style="padding: 4px 0 4px 5px;">
+                  <label class="inp-checkbox"
+                    ><input
+                      class="js-form-checkbox"
+                      type="checkbox"
+                      value="http"
+                    /><span class="icon"
+                      ><i class="iconfont icon-succ"></i></span
+                    ><span>http</span></label
+                  >
+                  <label class="inp-checkbox"
+                    ><input
+                      class="js-form-checkbox"
+                      type="checkbox"
+                      value="https"
+                    /><span class="icon"
+                      ><i class="iconfont icon-succ"></i></span
+                    ><span>https</span></label
+                  >
+                </div>
+              </div>
+            </div>
+            <div class="item item-list">
+              <span class="label">内容</span>
+              <div class="list-wrp">
+                <div class="cont-item">
+                  <div class="inp-div">
+                    <!-- <input class="js-form-cont" type="text" /> -->
+                    <textarea class="js-form-cont"></textarea>
+                  </div>
+                  <button class="btn btn-add" type="button">
+                    <i class="iconfont icon-add1"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- tips -->
+    <div id="js_toast" class="toast-wrp">
+      <div class="tips">别动，我在加载数据...</div>
+    </div>
+
+    <!-- template -->
+    <div style="display: none;" id="js_template">
+      <div class="item-wrp js-form-item">
+        <span class="btn-close"><i class="iconfont icon-del1"></i></span>
+        <div class="item">
+          <span class="label">url地址</span>
+          <div class="inp">
+            <div class="inp-div">
+              <input class="inp-url js-form-url" type="text" />
+            </div>
+          </div>
+        </div>
+        <div class="item">
+          <span class="label">协议类型</span>
+          <div class="inp">
+            <div class="inp-div" style="padding: 4px 0 4px 5px;">
+              <label class="inp-checkbox"
+                ><input
+                  class="js-form-checkbox"
+                  type="checkbox"
+                  value="http"
+                /><span class="icon"><i class="iconfont icon-succ"></i></span
+                ><span>http</span></label
+              >
+              <label class="inp-checkbox"
+                ><input
+                  class="js-form-checkbox"
+                  type="checkbox"
+                  value="https"
+                /><span class="icon"><i class="iconfont icon-succ"></i></span
+                ><span>https</span></label
+              >
+            </div>
+          </div>
+        </div>
+        <div class="item item-list">
+          <span class="label">内容</span>
+          <div class="list-wrp">
+            <div class="cont-item">
+              <div class="inp-div">
+                <!-- <input class="js-form-cont" type="text" /> -->
+                <textarea class="js-form-cont"></textarea>
+              </div>
+              <button class="btn btn-add" type="button">
+                <i class="iconfont icon-add1"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="./js/jquery.3.4.0.min.js"></script>
+    <script src="./js/jquery.datetimepicker.full.min.js"></script>
+    <script>
+      var mockData = {
+        time: '2019-06-30-11',
+        body: [
+          {
+            type: 'http,https',
+            url: '/r/a',
+            list: ['1', '2', '3']
+          },
+          {
+            type: 'https',
+            url: '/r/b',
+            list: ['1']
+          },
+          {
+            type: 'http',
+            url: '/r/c',
+            list: ['1', '2']
+          }
+        ]
+      }
+    </script>
+    <script>
+      $(document).ajaxSuccess(function(event, xhr, setting) {
+        if (xhr.status == 200 && xhr.responseJSON) {
+          var statusCode = xhr.responseJSON.code || xhr.responseJSON.result.code
+          var resutMsg = xhr.responseJSON.msg || xhr.responseJSON.result.msg
+          if (statusCode != 1) {
+            $('#js_toast').hide()
+            alert('出问题了：' + resutMsg)
+          }
+          if (statusCode == 401) {
+            location.href = './login.html'
+            return
+          }
+        }
+      })
+      $(document).ajaxError(function(event, xhr, setting) {
+        if (xhr.status != 200) {
+          alert('出问题了：服务好像挂了！')
+        }
+      })
+
+      var arrSlice = Array.prototype.slice
+      // var contHtml =
+      //   '<div class="cont-item"><div class="inp-div"><input class="js-form-cont" type="text" /></div><button class="btn btn-sub" type="button"><i class="iconfont icon-sub1"></i></button></div>'
+      var contHtml =
+        '<div class="cont-item"><div class="inp-div"><textarea class="js-form-cont"></textarea></div><button class="btn btn-sub" type="button"><i class="iconfont icon-sub1"></i></button></div>'
+
+      function requestParam(strName) {
+        var strHref = location.search
+        var intPos = strHref.indexOf('?')
+        if (intPos === -1) {
+          return ''
+        }
+        var strRight = strHref.substr(intPos + 1)
+        var arrTmp = strRight.split('&')
+        for (var i = 0; i < arrTmp.length; i++) {
+          var arrTemp = arrTmp[i].split('=')
+          if (arrTemp[0].toUpperCase() == strName.toUpperCase()) {
+            if (i === arrTmp.length - 1) {
+              var sIndex = arrTemp[1].indexOf('#')
+              if (sIndex !== -1) {
+                arrTemp[1] = arrTemp[1].substring(0, sIndex)
+              }
+            }
+            return arrTemp[1]
+          }
+        }
+        return ''
+      }
+
+      function getCheckbox(jObj) {
+        return arrSlice
+          .call(
+            jObj.filter(':checked').map(function(i, n) {
+              return n.value
+            })
+          )
+          .join(',')
+      }
+
+      function valItem(jObj) {
+        var flag = true
+
+        var $dtp = $('#js_dtp')
+        var $url = jObj.find('.js-form-url')
+        var $checkbox = jObj.find('.js-form-checkbox')
+        var $cont = jObj.find('.js-form-cont')
+
+        // url
+        if (
+          /^(\/[a-zA-z]+)+$/.test($url.val()) &&
+          !/^\/r\/h\//.test($url.val())
+        ) {
+          $url.closest('.inp-div').removeClass('err')
+        } else {
+          $url.closest('.inp-div').addClass('err')
+          flag = false
+        }
+
+        if (getCheckbox($checkbox).length) {
+          $checkbox
+            .eq(0)
+            .closest('.inp-div')
+            .removeClass('err')
+        } else {
+          $checkbox
+            .eq(0)
+            .closest('.inp-div')
+            .addClass('err')
+          flag = false
+        }
+
+        // cont
+        $cont.each(function(n, obj) {
+          var t_ = $(this)
+          if (obj.value.trim() && !/[\'\"\“\”\‘\’]/.test(obj.value.trim())) {
+            t_.closest('.inp-div').removeClass('err')
+          } else {
+            t_.closest('.inp-div').addClass('err')
+            flag = false
+          }
+        })
+
+        // dtp
+        if ($dtp.val().length) {
+          $dtp.closest('.inp-div').removeClass('err')
+        } else {
+          $dtp.closest('.inp-div').addClass('err')
+          flag = false
+        }
+
+        return flag
+      }
+
+      function cusValidator() {
+        var flag = true
+
+        $('#js_URLItem')
+          .find('.js-form-item')
+          .each(function() {
+            var t_ = $(this)
+            var result = valItem(t_)
+
+            flag = flag && result
+          })
+
+        return flag
+      }
+
+      function getSubmitData() {
+        var arr = []
+        $('#js_URLItem')
+          .find('.js-form-item')
+          .each(function() {
+            var t_ = $(this)
+
+            var $url = t_.find('.js-form-url')
+            var $checkbox = t_.find('.js-form-checkbox')
+            var $cont = t_.find('.js-form-cont')
+
+            var conList = arrSlice.call(
+              $cont.map(function(n, obj) {
+                // 替换 去引号
+                return obj.value.trim().replace(/\n/g, '')
+              })
+            )
+
+            arr.push({
+              url: $.trim($url.val()),
+              type: getCheckbox($checkbox),
+              list: conList
+            })
+          })
+
+        return arr
+      }
+
+      function createDOM(data) {
+        var $tmp = $($('#js_template').html())
+        $tmp.find('.js-form-url').val(data.url || '')
+
+        if (data.type) {
+          data.type = data.type.split(',')
+          $.each(data.type, function(i, n) {
+            $tmp
+              .find('.js-form-checkbox[value=' + n + ']')
+              .attr('checked', 'checked')
+          })
+        }
+
+        if (data.list.length) {
+          for (var i = 0; i < data.list.length; i++) {
+            var item = data.list[i]
+
+            if (i > 0) {
+              $tmp.find('.list-wrp').append(contHtml)
+            }
+
+            $tmp
+              .find('.js-form-cont')
+              .last()
+              .val(item)
+          }
+        }
+        return $tmp
+      }
+
+      function renderData(data) {
+        if (data) {
+          $('#js_dtp').val(data.time || '')
+
+          if (data.body.length) {
+            var arr = []
+            for (var i = 0; i < data.body.length; i++) {
+              var item = data.body[i]
+              arr.push(createDOM(item))
+            }
+            $('#js_URLItem').html(arr)
+          } else {
+            alert('狗子，没有数据啊！')
+          }
+        } else {
+          alert('狗子，没有数据啊！')
+        }
+      }
+
+      // init data
+      ;(function() {
+        var subData = {
+          time: requestParam('time'),
+          status: requestParam('status')
+        }
+        subData = JSON.stringify(subData)
+
+        $.ajax({
+          url: '/rest/data/detail',
+          type: 'POST',
+          contentType: 'application/json',
+          data: subData
+        }).then(function(data) {
+          if (data.result.code == 1) {
+            // todo
+            renderData(data.data)
+            $('#js_toast').hide()
+
+            if (requestParam('status') == 1) {
+              // 未生效
+              $('.js-test-reload').remove()
+            } else if (requestParam('status') == 2) {
+              // 已失效
+              $('.eidtor-wrp')
+                .find('input')
+                .attr('disabled', 'disabled')
+              $('.btn,.btn-close').remove()
+            } else if (requestParam('status') == 3) {
+              // 生效中
+              $('#js_delete').remove()
+              // 新建
+              if (requestParam('type') == 'create') {
+                $('#js_dtp').val('')
+                $('.js-test-reload').remove()
+              }
+            }
+          }
+        })
+      })()
+
+      // datatimepicker
+      if (requestParam('type') != 'prod') {
+        $.datetimepicker.setLocale('zh')
+        $('#js_dtp').datetimepicker({
+          format: 'Y-m-d-H',
+          minDate: new Date(),
+          scrollMonth: false
+        })
+      }
+
+      // events
+      $(document)
+        .on('click', '.btn-add-url', function() {
+          $('#js_URLItem').prepend($('#js_template').html())
+        })
+        .on('click', '.btn-close', function() {
+          var t_ = $(this)
+          if (confirm('狗子，你确定要删除接口嘛？')) {
+            t_.closest('.js-form-item').remove()
+          }
+        })
+        .on('click', '.btn-add', function() {
+          var t_ = $(this)
+
+          t_.closest('.list-wrp').append(contHtml)
+        })
+        .on('click', '.btn-sub', function() {
+          var t_ = $(this)
+          if (confirm('狗子，你确定要删除内容嘛？')) {
+            t_.closest('.cont-item').remove()
+          }
+        })
+        .on('click', '.js-test-reload', function() {
+          var t_ = $(this)
+          var res = true
+
+          if (t_.data('type') == 2) {
+            var res = confirm('狗子，你确定要重启嘛？')
+          }
+
+          if (res) {
+            $.ajax({
+              url: '/rest/data/nginx',
+              type: 'POST',
+              contentType: 'application/json',
+              data: JSON.stringify({
+                type: t_.data('type')
+              })
+            }).then(function(data) {
+              if (data.code == 1) {
+                if (t_.data('type') == 1) {
+                  $('#js_reload').removeAttr('disabled')
+                }
+                if (t_.data('type') == 2) {
+                  $('.js-test-reload').attr('disabled', 'disabled')
+                }
+              }
+              alert('执行：' + data.msg)
+            })
+          } else {
+            $('.js-test-reload').attr('disabled', 'disabled')
+          }
+        })
+        .on('click', '#js_delete', function() {
+          var t_ = $(this)
+
+          if (confirm('狗子，你确定要删除所有内容嘛？')) {
+            var subData = {
+              time: requestParam('time')
+            }
+            subData = JSON.stringify(subData)
+
+            t_.attr('disabled', 'disabled')
+
+            $.ajax({
+              url: '/rest/data/delete',
+              type: 'POST',
+              contentType: 'application/json',
+              data: subData
+            })
+              .then(function(data) {
+                if (data.code == 1) {
+                  // todo
+                  alert('好了，删掉了！开心了吧！')
+                  location.href = './list.html'
+                } else {
+                  t_.removeAttr('disabled')
+                }
+              })
+              .catch(function() {
+                t_.removeAttr('disabled')
+              })
+          }
+        })
+        .on('click', '#js_submit', function() {
+          var t_ = $(this)
+          if (cusValidator()) {
+            var subData = {}
+
+            subData.time = $('#js_dtp').val()
+            subData.body = getSubmitData()
+
+            subData = JSON.stringify(subData)
+
+            $('#js_toast .tips')
+              .text('别动，我在保存内容')
+              .show()
+
+            $.ajax({
+              url: '/rest/data/save',
+              type: 'POST',
+              contentType: 'application/json',
+              data: subData
+            })
+              .then(function(data) {
+                if (data.code == 1) {
+                  // todo
+                  alert('保存：' + data.msg)
+                  if (requestParam('type') == 'prod') {
+                    $('#js_test').removeAttr('disabled')
+                  } else {
+                    location.href = './list.html'
+                  }
+                } else {
+                  $('#js_toast').hide()
+                }
+              })
+              .catch(function() {
+                $('#js_toast').hide()
+              })
+          } else {
+            alert('狗子，有内容没填吧！')
+          }
+        })
+    </script>
+  </body>
+</html>
