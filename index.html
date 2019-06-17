@@ -49,16 +49,25 @@
       // console.log('ARR-', arr_1, ARR)
 
       function test(a) {
+        console.log('-test-')
+        console.log(this)
         console.log(a, arguments)
       }
 
-      function test2(...args) {
-        test(...args)
-        // console.log(this)
-        // test.apply(this, arguments)
+      function test2() {
+        console.log('-test2-')
+        // test(...args)
+        console.log(this, arguments)
+        // test(arguments)
+        // *
+        test.apply(this, arguments)
       }
 
       test2('a', 1, 2, 3)
+
+      // const slice = Array.prototype.slice
+      // console.log(slice.call([]))
+      // console.log(slice.call([1, 2, 3, 4, 5], 2))
     </script>
   </body>
 </html>
