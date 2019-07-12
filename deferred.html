@@ -13,16 +13,18 @@
     <script src="https://cdn.bootcss.com/js-cookie/latest/js.cookie.min.js"></script>
     <script>
       function cusDederred(sec, name, type) {
-        // var dtd = $.Deferred()
-        // setTimeout(function() {
-        //   console.log('-执行-')
-        //   if (type) {
-        //     dtd.resolve(name)
-        //   } else {
-        //     dtd.reject(name)
-        //   }
-        // }, sec)
-        // return dtd.promise()
+        var dtd = $.Deferred()
+        setTimeout(function() {
+          console.log('-执行-')
+          if (type) {
+            dtd.resolve(name)
+          } else {
+            dtd.reject(name)
+          }
+        }, sec)
+        return dtd.promise()
+
+
 
         // return '123'
 

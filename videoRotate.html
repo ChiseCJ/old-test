@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0"> -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>video 旋转</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+    }
+
+    html,
+    body {
+      height: 100%;
+    }
+
+    .video-wrp {
+      height: 100%;
+      position: relative;
+      /* position: relative; */
+      /* top: 0; */
+      /* transform-origin: 1px 0px; */
+    }
+
+    .video-wrp .video {
+      width: 100%;
+    }
+
+    .video-wrp.rotate .video {
+      transform: rotate(90deg);
+      position: fixed;
+      top: 150px;
+      left: -110px;
+      width: 600px;
+    }
+
+    .btn {
+      position: fixed;
+      right: 0;
+      bottom: 0;
+      z-index: 999;
+      margin: 10px;
+      padding: 10px;
+      border: 1px solid #eee;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="jsVideoWrp" class="video-wrp">
+    <video controls class="video" src="https://wecdn.tmooc.cn/wx_jianzhang/video/181106_2.mp4"></video>
+  </div>
+  <button class="btn" id="jsRotate">旋转</button>
+  <script>
+    var _slice = Array.prototype.slice;
+    // https://wecdn.tmooc.cn/wx_jianzhang/video/181106_1.mp4
+    var videoWrpEm = document.getElementById('jsVideoWrp');
+    var btnEm = document.getElementById('jsRotate');
+
+    btnEm.addEventListener('click', function (e) {
+      var cssList = _slice.call(videoWrpEm.classList);
+      cssList.push('rotate');
+      console.log(cssList)
+      videoWrpEm.classList = cssList.join(' ');
+    })
+  </script>
+</body>
+
+</html>
