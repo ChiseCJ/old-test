@@ -1,47 +1,93 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>async/await</title>
-    <style></style>
-  </head>
-  <body>
-    <script>
-      function fn1(name, ms, type) {
-        return new Promise((resolve, reject) => {
-          setTimeout(() => {
-            if (!type) {
-              resolve(name, ms)
-            } else {
-              reject(name)
-            }
-          }, ms)
-        })
-      }
 
-      async function run() {
-        // try {
-        //   await fn1('-fn1-', 1000, true)
-        //   console.log('---上面fn1')
-        //   await fn1('-fn2-', 1000)
-        //   console.log('---上面fn2')
-        // } catch (error) {
-        //   console.log('-err-', error)
-        // }
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  <title>async/await</title>
+  <style></style>
+</head>
 
-        await fn1('-fn1-', 1000, true).catch(err => {
-          console.log('err', err)
-        })
-        console.log('---上面fn1')
-        await fn1('-fn2-', 1000).catch(err => {
-          console.log('err', err)
-        })
-        console.log('---上面fn2')
-      }
+<body>
+  <script>
+    function async_fn(name, ms, type) {
+      return new Promise((resolve, reject) => {
+        // console.log('--')
+        setTimeout(() => {
+          if (!type) {
+            resolve(name, ms)
+          } else {
+            reject(name)
+          }
+        }, ms || 1000)
+      })
+    }
 
-      run()
-    </script>
-  </body>
+    async function run() {
+      // try {
+      //   await fn1('-fn1-', 1000, true)
+      //   console.log('---上面fn1')
+      //   await fn1('-fn2-', 1000)
+      //   console.log('---上面fn2')
+      // } catch (error) {
+      //   console.log('-err-', error)
+      // }
+
+      await fn1('-fn1-', 1000, true).catch(err => {
+        console.log('err', err)
+      })
+      console.log('---上面fn1')
+      await fn1('-fn2-', 1000).catch(err => {
+        console.log('err', err)
+      })
+      console.log('---上面fn2')
+    }
+
+    async function fn1() {
+      console.log('-fn1-')
+      // return 222
+      // return await 333
+      // return await async_fn('ccj')
+      /* return await {
+        a: 1,
+        b: 2
+      } */
+      // return {a:1,b:2}
+      // throw 123
+      // return {a:1,b:2}
+
+      // try {
+      //   // await async_fn('name1', '', true).catch(err => {
+      //   //   console.log('n2-', err)
+      //   // })
+      //   let a1 = await async_fn('name1', '', true)
+      //   let a2 = await async_fn('name2', '', true)
+      // } catch (error) {
+      //   console.log('n-', error)
+      // }
+
+      // let a1 = await async_fn('name1', '', )
+      // let a2 = await async_fn('name2', '', true)
+      // let a3 = await async_fn('name3', '', )
+      // console.log(a1, a2)
+      // return [a1, a2, a3]
+
+      // await async_fn('name1', '', true)
+      // await async_fn('name3', '', )
+      // async_fn('name1', '', )
+      return await Promise.all([async_fn('name1', 1000, ),async_fn('name2', 2000, )])
+    }
+
+    // console.log(fn1())
+    fn1().then(res => {
+      console.log('succ-', res)
+    }).catch(err => {
+      console.log('err-', err)
+    })
+
+    // run()
+  </script>
+</body>
+
 </html>
