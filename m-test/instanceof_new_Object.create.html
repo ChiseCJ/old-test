@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+    // instanceof
+    function new_instance_of(leftVaule, rightVaule) {
+      let rightProto = rightVaule.prototype; // 取右表达式的 prototype 值
+      leftVaule = leftVaule.__proto__; // 取左表达式的__proto__值
+
+      while (true) { // 循环对象的原型链
+        if (leftVaule === null) {
+          return false;
+        }
+        if (leftVaule === rightProto) {
+          return true;
+        }
+        leftVaule = leftVaule.__proto__ // 这是为了一直沿着原型链往上找
+      }
+    }
+
+    // new 
+    function abc(txt) {
+      console.log('-abc-', txt)
+
+      this.name = 'ccj'
+
+      return {
+        age: 20
+      }
+      // return '-test-'
+    }
+
+    var t = new abc('t')
+    console.log(t.name)
+    console.log(t.age)
+
+    function objectFactory() {
+      console.log(arguments)
+      var obj = new Object()
+      // 用于取出第一个参数，就是我们的构造函数
+      // 顺便修改 arguments 去除了构造函数，只剩实际的传参了
+      // var _constructor = [].shift.apply(arguments)
+      var _constructor = [].shift.call(arguments)
+      console.log(arguments)
+      console.log(_constructor)
+      // 这是为了获取原型上的方法
+      obj.__proto__ = _constructor.prototype
+      // 这是获取构造函数的方法，并执行函数
+      var ret = _constructor.apply(obj, arguments)
+      console.log('ret-', ret)
+      // return obj
+      return typeof ret === 'object' ? ret : obj;
+      // return obj;
+    }
+
+    // console.log(objectFactory(abc, 123).name)
+    var t1 = objectFactory(abc, 't1')
+    console.log(t1)
+    console.log(t1.name) // undefined
+    console.log(t1.age)
+
+    // object.create() 按照本质意思的确如此
+    function create(proto) {
+      // 实例
+      function F() {}
+      F.prototype = proto;
+
+      return new F();
+    }
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>实现 event</title>
+</head>
+
+<body>
+  <script>
+    class EventEmitter {
+      constructor() {
+        this._event = this._event || new Map()
+        // this._maxListeners = this._maxListeners || 10
+      }
+    }
+
+    EventEmitter.prototype.emit = function (type, ...args) {
+      let handler = this._event.get(type)
+
+      if (handler) {
+        if (Array.isArray(handler)) {
+          for (let i = 0; i < handler.length; i++) {
+            const item = handler[i]
+
+            if (args.length > 0) {
+              item.apply(this, args)
+            } else {
+              item.call(this)
+            }
+          }
+        } else {
+          if (args.length > 0) {
+            handler.apply(this, args)
+          } else {
+            handler.call(this)
+          }
+        }
+        return true
+      }
+      return false
+    }
+
+    EventEmitter.prototype.addListener = function (type, fn) {
+      let handler = this._event.get(type)
+
+      if (!handler) {
+        this._event.set(type, fn)
+      } else if (handler && typeof handler == 'function') { // 这样就支持同一个 type 多事件
+        this._event.set(type, [handler, fn])
+      } else {
+        handler.push(fn)
+      }
+    }
+
+    EventEmitter.prototype.removeListener = function (type, fn) {
+      let handler = this._event.get(type)
+
+      if (handler) {
+        if (Array.isArray(handler)) {
+          // 找到对于 fn 删除
+          // TODO 主要是怎么判断两个 function 相等
+          // 简单一点听过 toString() 转为字符串再判断
+          let postion;
+          // 如果handler是数组,说明被监听多次要找到对应的函数
+          for (let i = 0; i < handler.length; i++) {
+            if (handler[i].toString() === fn.toString()) {
+              postion = i;
+            } else {
+              postion = -1;
+            }
+          }
+          // 如果找到匹配的函数,从数组中清除
+          if (postion !== -1) {
+            // 找到数组对应的位置,直接清除此回调
+            handler.splice(postion, 1);
+            // 如果清除后只有一个函数,那么取消数组,以函数形式保存
+            if (handler.length === 1) {
+              this._events.set(type, handler[0]);
+            }
+          } else {
+            return this;
+          }
+        } else {
+          this._event.delete(type)
+        }
+      }
+    }
+
+    EventEmitter.prototype.removeListenerAll = function (type) {
+      let handler = this._event.get(type)
+
+      if (handler) {
+        this._event.delete(type)
+      }
+    }
+
+    const event = new EventEmitter()
+
+    event.addListener('e1', function (txt) {
+      console.log(`text - ${txt}`)
+    })
+    event.addListener('e1', function (txt) {
+      console.log(`text1 - ${txt}`)
+    })
+
+    event.emit('e1', 'abc')
+    event.emit('e2', 'abc')
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>depp clone</title>
+</head>
+
+<body>
+  <script>
+    /**
+     * deep clone
+     * @param  {[type]} parent object 需要进行克隆的对象
+     * @return {[type]}        深克隆后的对象
+     */
+    const clone = parent => {
+      const isType = (obj, type) => {
+        if (typeof obj !== 'object') return false;
+        // 这里是不是可以改成用 instanceof        
+        const typeString = Object.prototype.toString.call(obj);
+        let flag;
+
+        switch (type) {
+          case 'Array':
+            flag = typeString === '[object Array]';
+            break;
+          case 'Date':
+            flag = typeString === '[object Date]';
+            break;
+          case 'RegExp':
+            flag = typeString === '[object RegExp]';
+            break;
+          default:
+            flag = false;
+        }
+
+        return flag;
+      };
+
+      const getRegExp = re => {
+        var flags = '';
+
+        if (re.global) flags += 'g';
+        if (re.ignoreCase) flags += 'i';
+        if (re.multiline) flags += 'm';
+
+        return flags;
+      };
+      // 维护两个储存循环引用的数组
+      const parents = [];
+      // 存储通过对于方法处理的,新生产的数据
+      const children = [];
+
+      const _clone = parent => {
+        console.log('tar-', parent)
+
+        if (parent === null) return null;
+        if (typeof parent !== 'object') {
+          console.log('-no obj-', typeof parent)
+          return parent;
+        }
+
+        let child, proto;
+
+        if (isType(parent, 'Array')) {
+          console.log('-arr-')
+          // 对数组做特殊处理
+          child = [];
+        } else if (isType(parent, 'RegExp')) {
+          console.log('-reg-')
+          // 对正则对象做特殊处理
+          child = new RegExp(parent.source, getRegExp(parent));
+          if (parent.lastIndex) child.lastIndex = parent.lastIndex;
+        } else if (isType(parent, 'Date')) {
+          console.log('-date-')
+          // 对Date对象做特殊处理
+          child = new Date(parent.getTime());
+        } else {
+          // 处理对象原型
+          proto = Object.getPrototypeOf(parent);
+          // 利用 Object.create 切断原型链，通过这个生成一个新的空对象
+          // 再通过遍历把数据填入，和特殊情况处理
+          child = Object.create(proto);
+          console.log('-other-', proto, child)
+        }
+
+        // 处理循环引用,不能去掉.
+        // 不然会进入无限循环
+        const index = parents.indexOf(parent);
+        if (index != -1) {
+          console.log('-repeat-')
+          // 如果父数组存在本对象,说明之前已经被引用过,直接返回此对象
+          return children[index];
+        }
+        parents.push(parent);
+        children.push(child);
+
+        console.log('p-', parents)
+        console.log('c-', children)
+
+        for (let i in parent) {
+          console.log('key-', i)
+          // 递归 经过上面 Object.create() child 已经是个 {}
+          child[i] = _clone(parent[i]);
+        }
+        return child;
+      };
+
+      return _clone(parent);
+    };
+
+    function F() {
+      /* this.fn1 = function () {
+        console.log('-F-')
+      } */
+      console.log('-F-')
+    }
+    F.prototype.fn1 = function () {
+      console.log('-F fn1-')
+    }
+
+    let oldObj = {
+      a: 123,
+      // b: function () {},
+      // c: {
+      //   c1: 4
+      // },
+      // d: new F(),
+      // e: [1,2,3]
+    }
+    oldObj.o = oldObj
+
+    // let t = clone({})
+    // let t = clone(function(){})
+    let t = clone(oldObj)
+    // let t = copyObject(oldObj)
+    console.log('t-', t)
+
+    /* let fn = new F()
+    let fn_proto = Object.getPrototypeOf(fn)
+    let fn2 = Object.create(fn_proto)
+    console.log(fn_proto, fn_proto === fn.__proto__)
+    console.log(fn, fn2)
+    console.log(fn.fn1(), fn2.fn1()) */
+  </script>
+</body>
+
+</html>

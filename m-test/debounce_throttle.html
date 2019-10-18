@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+
+<body>
+  <button id="js_btn">click</button>
+  <script src="https://cdn.bootcss.com/jquery/2.2.0/jquery.min.js"></script>
+  <script>
+    var debounce = function (callback) {
+      console.log('-debounce-')
+      var timer = null
+      // 工厂模式 一是为了传参，二是为了只有一个实例
+      return function () {
+        var that = this
+        var args = arguments
+
+        console.log('this', that)
+        console.log('args', args)
+
+        clearTimeout(timer)
+        timer = setTimeout(function () {
+          callback && callback.apply(that, args)
+        }, 1000)
+      }
+    }
+    // 定时器
+    var throttle = function (callback) {
+      var timer = null
+
+      return function () {
+        if (timer) return false
+
+        var that = this
+        var args = arguments
+
+        timer = setTimeout(function () {
+          timer = null
+          callback && callback.apply(that, args)
+        }, 1000)
+      }
+    }
+    // 时间戳
+    var throttle2 = function (callback) {
+      var timer = null
+      var initTime = 0
+
+      return function () {
+        var now = Date.now()
+
+        if (now - initTime >= 1000) {
+          var that = this
+          var args = arguments
+
+          callback && callback.apply(that, args)
+          initTime = now
+        }
+      }
+    }
+
+    var t = debounce(function () {
+      console.log('fn_args', arguments)
+      console.log('-123-')
+    })('abc')
+    console.log('-t-', t)
+
+    $('#js_btn').click(throttle2(function () {
+      console.log('-throttle2-')
+    }))
+  </script>
+</body>
+
+</html>
