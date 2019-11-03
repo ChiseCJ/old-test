@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>call apply bind</title>
+</head>
+
+<body>
+  <script>
+    // cus call
+    // *在原型上通过 this 拿着方法 -》 test()
+    // *是这通过 arguments 拿到参数，并转为了 1,2,3 的形式 -》 arr.join(',')/arr.toString()
+    // *细节处理 null/undefined，返回值等
+    Function.prototype.call2 = function (context) {
+      console.log('call2_this-', this, arguments)
+      context = context ? Object(context) : window
+      context.fn = this
+      // 处理 arguments，注意 i 要从 1 开始。避开 this
+      var tmp = []
+      for (var i = 1; i < arguments.length; i++) {
+        // *要理解这里的 'arguments[' + i + ']' 做法的含义，是为 eval() 准备
+        // *tmp.push(arguments[i]) 为什么不这么用
+        // *因为通过 eval() 执行是 'abc' 就变成了变量了，不再是字符串了
+        // *实际就只是为了引用 arguments
+        tmp.push('arguments[' + i + ']')
+      }
+      console.log('tmp-', tmp)
+      // context.fn()
+      // *这里构成成 fn1(1,'abc') 形式
+      var result = eval('context.fn(' + tmp + ')')
+
+      delete context.fn
+      return result
+    }
+    // cus apply
+    // *因为传入的直接就是 array ，所以不用通过 arguments 获取参数
+    // *循环直接从传入的 array 的 0 开始就好，不能在从 1 开始
+    Function.prototype.apply2 = function (context, arr) {
+      context = context ? Object(context) : window
+      context.fn = this
+
+      var result
+      if (!arr) {
+        result = context.fn()
+      } else {
+        // arr 存在
+        var tmp = []
+        for (var i = 0; i < arr.length; i++) {
+          tmp.push('arr[' + i + ']')
+        }
+        result = eval('context.fn(' + tmp + ')')
+      }
+
+      delete context.fn
+      return result
+    }
+
+    var value = 1
+    var obj = {
+      value: 2
+    }
+
+    function test(param1, param2) {
+      console.log('test-', this.value, param1, param2)
+      return {
+        p1: param1,
+        p2: param2
+      }
+    }
+
+
+    test()
+    test.call(obj)
+    // test.call2(obj, 1, 'abc')
+    console.log(test.call2())
+    console.log(test.call2(obj, 'parma1', 'param2'))
+    console.log(test.apply2(obj, ['a', 'b']))
+    eval('test(' + [] + ')')
+  </script>
+</body>
+
+</html>

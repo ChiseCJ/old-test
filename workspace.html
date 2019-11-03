@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>workspace</title>
+</head>
+
+<body>
+  <button id="js_btn">btn</button>
+  <script src="https://cdn.bootcss.com/jquery/2.2.0/jquery.min.js"></script>
+  <script>
+    $(function () {
+      $('#js_btn').on('click', function () {
+        console.log('click')
+      }).on('click.a', function () {
+        console.log('click.a')
+      }).on('click.b', function () {
+        console.log('click.b')
+      }).on('click.a.b', function () {
+        console.log('click.a.b')
+      }).on('click.a.b.c', function () {
+        console.log('click.a.b.c')
+      })
+    })
+  </script>
+</body>
+
+</html>
