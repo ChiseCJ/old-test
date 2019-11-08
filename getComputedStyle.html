@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+
+<body>
+  <div id="id">123456</div>
+  <input type="file" id="inp">
+  <script src="https://cdn.bootcss.com/jquery/2.2.0/jquery.min.js"></script>
+  <script>
+    function getObjectURL(file) {
+      var url = null;
+      if (window.createObjectURL != undefined) { // basic
+        url = window.createObjectURL(file);
+      } else if (window.URL != undefined) { // mozilla(firefox)
+        url = window.URL.createObjectURL(file);
+      } else if (window.webkitURL != undefined) { // webkit or chrome
+        url = window.webkitURL.createObjectURL(file);
+      }
+      return url;
+    }
+
+    function checkImgWH(t_files) {
+      var dtd = $.Deferred();
+
+      var el_img = new Image();
+      el_img.onload = function () {
+        console.log(el_img)
+        console.log('w-', el_img.width)
+        setTimeout(function () {
+          dtd.resolve(true)
+        }, 1000)
+      };
+      el_img.onerror = function () {
+        dtd.resolve(false)
+      }
+      el_img.src = getObjectURL(t_files);
+
+      return dtd.promise();
+    }
+
+    $('#inp').change(function (e) {
+      var file_ = e.target.files[0]
+      console.log(file_)
+      var flag = true
+
+      var abc = checkImgWH(file_).then(function (res) {
+        console.log('flag-1-', flag)
+        return 123
+      })
+      console.log('abc0', abc)
+      // console.log(checkImgWH(file_))
+      // $.when(checkImgWH(file_)).then(function (res) {
+      //   flag = res
+      //   console.log('flag-1-', flag)
+      //   return false
+      // })
+      console.log('flag-2-', flag)
+    })
+
+
+    var $id = document.getElementById('id')
+
+    var style_ = window.getComputedStyle($id)
+    console.log(style_.width)
+    console.log(style_.width.slice(0, -2))
+    console.log(style_.width.slice(-2))
+    console.log(style_.width.slice(-style_.width, -2))
+  </script>
+</body>
+
+</html>
