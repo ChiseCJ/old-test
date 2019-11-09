@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Document</title>
+  <title>instanceof_new_Object.create</title>
 </head>
 
 <body>
@@ -32,38 +32,40 @@
 
       this.name = 'ccj'
 
-      return {
-        age: 20
-      }
-      // return '-test-'
+      // return {
+      //   age: 20
+      // }
+      return '-test-'
     }
 
     var t = new abc('t')
+    console.log('t-', t)
     console.log(t.name)
     console.log(t.age)
 
     function objectFactory() {
-      console.log(arguments)
+      console.log('arg1-', arguments)
       var obj = new Object()
       // 用于取出第一个参数，就是我们的构造函数
-      // 顺便修改 arguments 去除了构造函数，只剩实际的传参了
+      // *顺便修改 arguments 去除了构造函数，只剩实际的传参了
       // var _constructor = [].shift.apply(arguments)
-      var _constructor = [].shift.call(arguments)
-      console.log(arguments)
-      console.log(_constructor)
-      // 这是为了获取原型上的方法
+      // var _constructor = [].shift.call(arguments)
+      var _constructor = Array.prototype.shift.call(arguments)
+      console.log('arg2-', arguments)
+      console.log('con-', _constructor)
+      // 这是为了获取原型上的方法 (实例 指向 原型)
       obj.__proto__ = _constructor.prototype
       // 这是获取构造函数的方法，并执行函数
       var ret = _constructor.apply(obj, arguments)
       console.log('ret-', ret)
       // return obj
-      return typeof ret === 'object' ? ret : obj;
-      // return obj;
+      // return typeof ret === 'object' ? ret : obj;
+      return ret instanceof Object ? ret : obj;
     }
 
     // console.log(objectFactory(abc, 123).name)
     var t1 = objectFactory(abc, 't1')
-    console.log(t1)
+    console.log('t1--', t1)
     console.log(t1.name) // undefined
     console.log(t1.age)
 
