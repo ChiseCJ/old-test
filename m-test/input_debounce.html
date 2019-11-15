@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>input</title>
+  </head>
+  <body>
+    <input id="js_inp" type="text" />
+    <script>
+      var $inp = document.getElementById('js_inp')
+
+      var debounce = function() {
+        var timer
+
+        return function(e) {
+          console.log('inp-', e.target.flag)
+
+          if (e.target.flag) {
+            clearTimeout(timer)
+            timer = setTimeout(function() {
+              console.log('res-', e.target.value)
+              timer = null
+            }, 800)
+          }
+        }
+      }
+
+      // $inp.addEventListener('input', function(e) {
+      //   console.log('-input-', e.target.value)
+      //   return false
+      // })
+      $inp.addEventListener('input', debounce())
+      $inp.addEventListener('compositionstart', function(e) {
+        console.log('-compositionstart-', e.target)
+        e.target.flag = false
+      })
+      // $inp.addEventListener('compositionupdate', function(e) {
+      //   console.log('-compositionupdate-')
+      // })
+      $inp.addEventListener('compositionend', function(e) {
+        console.log('-compositionend-')
+        e.target.flag = true
+        // 触发 input
+        let evt = new Event('input')
+        $inp.dispatchEvent(evt)
+      })
+    </script>
+  </body>
+</html>

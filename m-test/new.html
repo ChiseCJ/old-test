@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>new</title>
+  </head>
+  <body>
+    <script>
+      function fn(name, age) {
+        this.name = name
+        // this.age = age
+        return {
+          age: age
+        }
+      }
+      fn.prototype.test = function() {
+        console.log('-test-')
+      }
+
+      var a = new fn('cj', 20)
+
+      console.log(a.name, a.age)
+
+      function createFn(fn) {
+        var obj = {}
+        obj.__proto__ = fn.prototype
+
+        var arg = Array.prototype.slice.call(arguments, 1)
+        var res = fn.apply(obj, arg)
+        return res instanceof Object ? res : obj
+      }
+
+      var b = createFn(fn, 'cc', 30)
+      console.log(b.name, b.age, b.c)
+    </script>
+  </body>
+</html>
