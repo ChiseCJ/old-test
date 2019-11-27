@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>bind_this</title>
+  </head>
+  <body>
+    <script>
+      function main_fn(fn) {
+        var that = this
+        this.param1 = false
+        this.param2 = false
+        this.param3 = undefined
+
+        this.value1 = undefined
+        this.value2 = undefined
+
+        // *这样的写法，让使用时 this 指向变的不确定了
+        function in_fn1(val) {
+          this.param1 = true
+          this.value1 = 'fn1-' + val
+          console.log('fn1-', this)
+        }
+        function in_fn2(val) {
+          this.param2 = true
+          this.value2 = 'fn2-' + val
+          console.log('fn2-', this)
+        }
+        // *这样的实例方法，是不需要修改 this 的；
+        // *因为在使用的时候，就是 实例.fn3(xxx) 指向的还是实例
+        this.fn3 = function(val) {
+          this.param3 = val
+          console.log('fn3-', this)
+        }
+        // outer fn
+        // fn && fn(in_fn1, in_fn2)
+        // fn && fn(this.in_fn1.bind(this), this.in_fn2.bind(this))
+        // *这么修改只是让 fn 改变了 this 指向
+        // fn && fn.call(this, in_fn1, in_fn2)
+        // fn && fn(in_fn1.bind(this), in_fn2.bind(this))
+        console.log('main-', this)
+      }
+
+      function fn4() {
+        console.log('fn4-', this)
+      }
+
+      var obj = {
+        name: 'cj'
+      }
+
+      function test1() {
+        console.log('test1-', this)
+
+        function t_fn1() {
+          console.log('t_fn1-', this)
+        }
+        var t_fn2 = function() {
+          console.log('t_fn2-', this)
+        }
+
+        // t_fn1()
+        // t_fn2()
+        // return {
+        //   t_fn2: t_fn2
+        // }
+        return t_fn2
+      }
+      // test1()()
+
+      function test2(fn) {
+        console.log('test2-', this)
+
+        fn()
+      }
+      test2.call(obj, fn4)
+      // new test1()
+      // test1.call(obj)
+      // t_fn1()
+
+      // var test = new main_fn(function(a, b) {
+      //   console.log('init-', this)
+      //   a('a')
+      //   b('b')
+      //   fn4()
+      // })
+      // test.fn3('123')
+    </script>
+  </body>
+</html>
