@@ -1,5 +1,14 @@
 var cityData = [
   {
+    id: 100000,
+    name: '中国',
+    parentId: 0,
+    shortName: '中国',
+    levelType: '0',
+    mergerName: '中国',
+    pinYin: 'China'
+  },
+  {
     id: 110000,
     name: '北京',
     parentId: 100000,

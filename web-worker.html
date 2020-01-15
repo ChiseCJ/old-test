@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>web-worker</title>
+  </head>
+  <body>
+    <input id="js_inpt" type="file" />
+    <script>
+      const myWorker = new Worker('./js/ww-handler.js', { name: 'abc' })
+
+      const $inp = document.getElementById('js_inpt')
+
+      $inp.onchange = e => {
+        let [file] = e.target.files
+        console.log(file)
+        // console.log(file.slice(0, 100));
+        const chunkArr = []
+        const chunkSize = Math.ceil(file.size / 10)
+
+        let cur = 0
+        while (cur < file.size) {
+          chunkArr.push(file.slice(cur, cur + chunkSize))
+          cur += chunkSize
+        }
+        console.log(chunkArr)
+        myWorker.postMessage(file)
+      }
+
+      // myWorker.onmessage = e => {
+      //   console.log('z-', e.data)
+      // }
+
+      // var obj = { a: 1, b: 2 }
+      // myWorker.postMessage(obj)
+
+      // var obj2 = new ArrayBuffer(2)
+      // console.log('z-', obj2)
+      // myWorker.postMessage(obj2, [obj2])
+    </script>
+  </body>
+</html>
