@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>city</title>
+  </head>
+  <body>
+    <div id="app"></div>
+    <script src="./js/city-data.js"></script>
+    <script>
+      console.time('city')
+      // console.log(cityData)
+      var provinceArr = []
+      var cityArr = []
+      var areaArr = []
+      // 三级分离
+      for (let i = 0; i < cityData.length; i++) {
+        const item = cityData[i]
+        if (item.levelType == 1) {
+          provinceArr.push(item)
+          // _cityData.push(item)
+        } else if (item.levelType == 2) {
+          cityArr.push(item)
+        } else {
+          areaArr.push(item)
+        }
+      }
+      // arr -> obj
+      var provinceObj = {}
+      var cityObj = {}
+      for (let i = 0; i < provinceArr.length; i++) {
+        const item = provinceArr[i]
+        provinceObj['p_' + item.id] = item
+      }
+      for (let i = 0; i < cityArr.length; i++) {
+        const item = cityArr[i]
+        cityObj['c_' + item.id] = item
+      }
+      // 区 -> 市
+      for (let i = 0; i < areaArr.length; i++) {
+        const item = areaArr[i]
+
+        if (cityObj['c_' + item.parentId]) {
+          if (cityObj['c_' + item.parentId].children) {
+            cityObj['c_' + item.parentId].children.push(item)
+          } else {
+            cityObj['c_' + item.parentId].children = []
+            cityObj['c_' + item.parentId].children.push(item)
+          }
+        }
+      }
+      // 市 -> 省
+      for (let i = 0; i < cityArr.length; i++) {
+        const item = cityArr[i]
+
+        if (provinceObj['p_' + item.parentId]) {
+          if (provinceObj['p_' + item.parentId].children) {
+            provinceObj['p_' + item.parentId].children.push(
+              cityObj['c_' + item.id]
+            )
+          } else {
+            provinceObj['p_' + item.parentId].children = []
+            provinceObj['p_' + item.parentId].children.push(
+              cityObj['c_' + item.id]
+            )
+          }
+        }
+      }
+      // 新构造的数据
+      var _cityData = []
+      for (const key in provinceObj) {
+        if (provinceObj.hasOwnProperty(key)) {
+          const item = provinceObj[key]
+          _cityData.push(item)
+        }
+      }
+      console.timeEnd('city')
+      console.log(_cityData)
+    </script>
+  </body>
+</html>
