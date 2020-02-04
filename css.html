@@ -57,6 +57,17 @@
       .test .pp2:nth-of-type(1){
         color: red;
       }
+      .t-div .inp1:target{
+        background-color: #f90;
+      }
+
+      .c1{
+        color: #f90;
+      }
+      .c1 .c2{
+        background-color: currentColor;
+        /* color: red; */
+      }
     </style>
   </head>
   <body>
@@ -77,6 +88,14 @@
       <p class="pp1">1</p>
       <div class="pp2">2</div>
       <div class="pp2">2</div>
+    </div>
+    <div class="t-div">
+      <input type="text" class="inp1">
+      <input type="text" class="inp1">
+    </div>
+    <hr />
+    <div class="c1">
+      <div class="c2">123</div>
     </div>
     <script></script>
   </body>

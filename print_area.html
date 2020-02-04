@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+  </head>
+  <body>
+    <button onclick="printT()">打 印</button>
+    <div id="app"></div>
+    <script>
+      var sourceData = {
+        success: true,
+        msgcode: null,
+        msg: null,
+        obj: {
+          createUserid: 2001749,
+          createName: '蔡程建(集团总部)',
+          createDate: '2020-02-04 12:11:04',
+          createDateStr: '2020-02-04 04:11:04',
+          updateUserid: 2001749,
+          updateName: '蔡程建(集团总部)',
+          updateDate: '2020-02-04 12:11:04',
+          updateDateStr: '2020-02-04 04:11:04',
+          loginDepartmentId: '1',
+          loginOrgCoreCode: '100',
+          id: 147,
+          orderNum: 1020200204041110244,
+          orderNumStr: '1020200204041110244',
+          reportedCode: null,
+          state: 3,
+          stateName: '报备完成待申购',
+          totalPrice: 51.0,
+          supplierOrderList: [
+            {
+              createUserid: 2001749,
+              createName: '蔡程建(集团总部)',
+              createDate: '2020-02-04 12:11:04',
+              createDateStr: '2020-02-04 04:11:04',
+              updateUserid: 2001749,
+              updateName: '蔡程建(集团总部)',
+              updateDate: '2020-02-04 12:11:04',
+              updateDateStr: '2020-02-04 04:11:04',
+              loginDepartmentId: '1',
+              loginOrgCoreCode: '100',
+              id: 178,
+              orderNum: 1020200204041110244,
+              orderNumStr: '1020200204041110244',
+              purchaseCode: null,
+              state: 3,
+              stateName: '报备完成待申购',
+              supplierOrderNum: 1120200204041110331,
+              supplierOrderNumStr: '1120200204041110331',
+              supplierCode: 'SC1039',
+              supplierName: '天天乐购',
+              totalPrice: 40.0,
+              deletState: '1',
+              goodsOrderList: [
+                {
+                  createUserid: 2001749,
+                  createName: '蔡程建(集团总部)',
+                  createDate: '2020-02-04 12:11:04',
+                  createDateStr: '2020-02-04 04:11:04',
+                  updateUserid: 2001749,
+                  updateName: '蔡程建(集团总部)',
+                  updateDate: '2020-02-04 12:11:04',
+                  updateDateStr: '2020-02-04 04:11:04',
+                  loginDepartmentId: '1',
+                  id: 194,
+                  orderNum: 1020200204041110244,
+                  orderNumStr: '1020200204041110244',
+                  goodsOrderNum: 1220200204041110444,
+                  goodsOrderNumStr: '1220200204041110444',
+                  organizationCode: '1011000313',
+                  centerName: '达内集团K12事业部',
+                  goodsId: 14,
+                  goodsCode: null,
+                  supplierOrderNum: 1120200204041110331,
+                  skuId: 52,
+                  attrValue: '799',
+                  goodsAddress: '深圳龙岗区',
+                  goodsImgUrl:
+                    'http://10.7.11.99/kshop/cdnfiles/bsfile/goodsImg/2019/11/26//3341329bb6a74267ae6fe0b9cca808d8.jpg',
+                  goodsName: '手机膜',
+                  goodsShowName: '手机膜',
+                  goodsNumber: 1,
+                  price: 40.0,
+                  state: null,
+                  truePrice: 40.0,
+                  supplierName: '天天乐购',
+                  attrArray: 'specs:abcd',
+                  attrValueList: [{ attrName: '规格', name: 'abcd' }],
+                  saleUnit: null,
+                  materials: null,
+                  supplierCode: 'SC1039',
+                  color: null,
+                  size: null,
+                  specs: 'abcd',
+                  sharePrice: null,
+                  sharePata: null,
+                  allPrice: null,
+                  categoryCode: 'SPFL02',
+                  categoryName: '教具'
+                },
+                {
+                  createUserid: 2001749,
+                  createName: '蔡程建(集团总部)',
+                  createDate: '2020-02-04 12:11:04',
+                  createDateStr: '2020-02-04 04:11:04',
+                  updateUserid: 2001749,
+                  updateName: '蔡程建(集团总部)',
+                  updateDate: '2020-02-04 12:11:04',
+                  updateDateStr: '2020-02-04 04:11:04',
+                  loginDepartmentId: '1',
+                  id: 194,
+                  orderNum: 1020200204041110244,
+                  orderNumStr: '1020200204041110244',
+                  goodsOrderNum: 1220200204041110444,
+                  goodsOrderNumStr: '1220200204041110444',
+                  organizationCode: '1011000313',
+                  centerName: '达内集团K12事业部',
+                  goodsId: 14,
+                  goodsCode: null,
+                  supplierOrderNum: 1120200204041110331,
+                  skuId: 52,
+                  attrValue: '799',
+                  goodsAddress: '深圳龙岗区',
+                  goodsImgUrl:
+                    'http://10.7.11.99/kshop/cdnfiles/bsfile/goodsImg/2019/11/26//3341329bb6a74267ae6fe0b9cca808d8.jpg',
+                  goodsName: '手机膜',
+                  goodsShowName: '手机膜',
+                  goodsNumber: 1,
+                  price: 40.0,
+                  state: null,
+                  truePrice: 40.0,
+                  supplierName: '天天乐购',
+                  attrArray: 'specs:abcd',
+                  attrValueList: [{ attrName: '规格', name: 'abcd' }],
+                  saleUnit: null,
+                  materials: null,
+                  supplierCode: 'SC1039',
+                  color: null,
+                  size: null,
+                  specs: 'abcd',
+                  sharePrice: null,
+                  sharePata: null,
+                  allPrice: null,
+                  categoryCode: 'SPFL02',
+                  categoryName: '教具'
+                }
+              ],
+              categoryCode: null,
+              organizationName: '达内集团K12事业部',
+              teachingGoods: false,
+              settlementTimeStr: ''
+            },
+            {
+              createUserid: 2001749,
+              createName: '蔡程建(集团总部)',
+              createDate: '2020-02-04 12:11:04',
+              createDateStr: '2020-02-04 04:11:04',
+              updateUserid: 2001749,
+              updateName: '蔡程建(集团总部)',
+              updateDate: '2020-02-04 12:11:04',
+              updateDateStr: '2020-02-04 04:11:04',
+              loginDepartmentId: '1',
+              loginOrgCoreCode: '100',
+              id: 179,
+              orderNum: 1020200204041110244,
+              orderNumStr: '1020200204041110244',
+              purchaseCode: null,
+              state: 3,
+              stateName: '报备完成待申购',
+              supplierOrderNum: 1120200204041110332,
+              supplierOrderNumStr: '1120200204041110332',
+              area: 'kshop供应商信息更新333',
+              supplierCode: 'SC1000',
+              supplierName: 'kshop供应商信息更新',
+              totalPrice: 11.0,
+              deletState: '1',
+              goodsOrderList: [
+                {
+                  createUserid: 2001749,
+                  createName: '蔡程建(集团总部)',
+                  createDate: '2020-02-04 12:11:04',
+                  createDateStr: '2020-02-04 04:11:04',
+                  updateUserid: 2001749,
+                  updateName: '蔡程建(集团总部)',
+                  updateDate: '2020-02-04 12:11:04',
+                  updateDateStr: '2020-02-04 04:11:04',
+                  loginDepartmentId: '1',
+                  id: 195,
+                  orderNum: 1020200204041110244,
+                  orderNumStr: '1020200204041110244',
+                  goodsOrderNum: 1220200204041110445,
+                  goodsOrderNumStr: '1220200204041110445',
+                  organizationCode: '1011000313',
+                  centerName: '达内集团K12事业部',
+                  goodsId: 26,
+                  goodsCode: null,
+                  supplierOrderNum: 1120200204041110332,
+                  skuId: 97,
+                  attrValue: '822',
+                  goodsAddress: '教具商品11',
+                  goodsImgUrl:
+                    'http://10.7.11.24:8080/kshop/kshop/cdnfiles/bsfile/goodsImg/2020/2/4\\/f4804eb54ebc44779b7ba3bc383e9317.png',
+                  goodsName: '教具商品11',
+                  goodsShowName: '教具商品11',
+                  goodsNumber: 1,
+                  price: 11.0,
+                  state: null,
+                  truePrice: 11.0,
+                  supplierName: 'kshop供应商信息更新',
+                  attrArray: 'specs:11',
+                  attrValueList: [{ attrName: '规格', name: '11' }],
+                  saleUnit: null,
+                  materials: null,
+                  supplierCode: 'SC1000',
+                  color: null,
+                  size: null,
+                  specs: '11',
+                  sharePrice: null,
+                  sharePata: null,
+                  allPrice: null,
+                  categoryCode: 'SPFL02',
+                  categoryName: '教具',
+                  taxRate: '0.0600'
+                }
+              ],
+              categoryCode: null,
+              organizationName: '达内集团K12事业部',
+              teachingGoods: false,
+              settlementTimeStr: ''
+            }
+          ],
+          isDelete: '1',
+          examineType: 'BPM_NOT'
+        },
+        draw: 0,
+        recordsTotal: 0,
+        recordsFiltered: 0,
+        data: null
+      }
+    </script>
+    <script>
+      console.log(sourceData.obj)
+
+      function createHTML(data) {
+        function p_SupplierData(list) {
+          var tmp = []
+          // list obj.supplierOrderList
+          list.forEach(val => {
+            tmp = tmp.concat(val.goodsOrderList)
+          })
+
+          return tmp
+        }
+
+        function createTr(list) {
+          var arr = p_SupplierData(list)
+          var tmp = []
+
+          arr.forEach((val, index) => {
+            tmp.push(`
+              <tr>
+                <td>${index + 1}</td>
+                <td>${val.goodsShowName}</td>
+                <td>${val.supplierName}</td>
+                <td>${val.centerName}</td>
+                <td>${val.price}</td>
+                <td>${val.goodsNumber}</td>
+                <td>${val.truePrice}</td>
+              </tr>
+            `)
+          })
+          
+          return tmp.join('')
+        }
+
+        var str = `<table border="1" cellpadding="5" cellspacing="0" width="100%">
+          <tr>
+            <td colspan="7" align="center">内购平台订单详情</td>
+          </tr>
+          <tr>
+            <td>采购人</td>
+            <td colspan="2">${data.createName}</td>
+            <td>订单编号</td>
+            <td colspan="3">${data.orderNumStr}</td>
+          </tr>
+          <tr>
+            <td>所属中心</td>
+            <td colspan="6">${data.loginOrgCore || ''}</td>
+          </tr>
+          <tr>
+            <td colspan="7">&nbsp;</td>
+          </tr>
+          <tr>
+            <td>序号</td>
+            <td>商品</td>
+            <td>供应商</td>
+            <td>中心</td>
+            <td>价格</td>
+            <td>数量</td>
+            <td>金额</td>
+          </tr>
+          ${createTr(data.supplierOrderList)}
+        </table>`
+
+        return str
+      }
+
+      const $app = document.getElementById('app')
+      $app.innerHTML = createHTML(sourceData.obj)
+
+      // console.log(p_SupplierData(sourceData.obj.supplierOrderList))
+
+      function printT() {
+        myPrint(createHTML(sourceData.obj))
+      }
+
+      function myPrint(docStr) {
+        var newWindow = window.open('打印窗口', '_blank')
+        newWindow.document.write(docStr)
+        newWindow.document.close()
+        newWindow.print()
+        newWindow.close()
+      }
+    </script>
+  </body>
+</html>
