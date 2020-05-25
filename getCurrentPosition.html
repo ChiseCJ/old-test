@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>经纬度</title>
+  </head>
+  <body>
+    <script>
+      //获取经纬度坐标
+      function getPosition(callback) {
+        if (navigator.geolocation) {
+          var options = {
+            enableHighAccuracy: false, // 更高精度
+            maximumAge: 0, // 是否使用缓冲的位置
+            timeout: 6000
+          }
+          navigator.geolocation.getCurrentPosition(
+            function(pos) {
+              // 获取到当前位置经纬度
+              var lng = pos.coords.longitude // 经度
+              var lat = pos.coords.latitude // 纬度
+              callback(lng, lat)
+            },
+            function(err) {
+              // console.log('err-', err.message)
+              document.write('err-', err.message)
+            },
+            options
+          )
+        } else {
+          // console.log('Browser didnt support geolocation')
+          document.write('Browser didnt support geolocation')
+        }
+      }
+      getPosition(function(lng, lat) {
+        // console.log(lng, lat)
+        document.write('经度-', lng, '纬度-', lat)
+      })
+    </script>
+  </body>
+</html>

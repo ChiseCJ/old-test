@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>IP 定位</title>
+  </head>
+  <body>
+    <div id="app"></div>
+    <script src="//api.map.baidu.com/api?v=2.0&ak=gdOUt8aUSVV81pitC3qD5EGYPV4Mls7O"></script>
+    <script>
+      // IP定位
+      var myCity = new BMap.LocalCity()
+      myCity.get(function(res) {
+        console.log('-succ-', res)
+        document.getElementById('app').innerText = JSON.stringify(res)
+      })
+    </script>
+  </body>
+</html>
